@@ -4,12 +4,12 @@ import heapq
 from utils import inGrid
 
 class State():
-    def __init__(self, point: tuple[int, int],  cost: int, huaristic: int, total: int) -> None:
+    def __init__(self, point: tuple[int, int],  cost: int, hueristic: int, total: int) -> None:
         # Create an empty list with items of type T
         self.point: tuple[int, int] = point
-        self.huaristic: int = huaristic
+        self.huaristic: int = hueristic
         self.cost: int = cost
-        self.total: int = cost + huaristic
+        self.total: int = cost + hueristic
 
     def __lt__(self, other) -> bool:
         return self.total < other.total
@@ -19,10 +19,11 @@ class State():
 
 
 
-def dfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
+def dfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) -> tuple[list[tuple[int, int]], int]:
     directions =[(1, 0), (-1, 0), (0, 1), (0, -1)]
     
     discovered: set[tuple[int, int]] = set()
+    discovered.add(start)
     pointParent: dict[tuple[int, int], tuple[int, int] | None]= {}
     pointParent[start] = None
     
@@ -45,11 +46,11 @@ def dfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) ->
             break
         
     if not goalFound:
-        return []
+        return [], 0
     
     
     path = constructPath(pointParent, goal)
-    return path
+    return path, len(discovered)
         
 
         
@@ -82,16 +83,15 @@ def dfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) ->
     # return path
 
 
-def bfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
+def bfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) -> tuple[list[tuple[int, int]], int]:
     q: deque[tuple[int, int]] = deque()
     q.append(start)
 
-
     discovered: set[tuple[int, int]] = set()
+    discovered.add(start)
     pointParent: dict[tuple[int, int], tuple[int, int] | None]= {}
     pointParent[start] = None
     
-
     directions =[(1, 0), (-1, 0), (0, 1), (0, -1)]
     goalFound = False
     while len(q) > 0:
@@ -111,13 +111,13 @@ def bfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) ->
             break
 
     if not goalFound:
-        return []
+        return [], 0
 
     path = constructPath(pointParent, goal)
-    return path
+    return path, len(discovered)
 
 #A star is broken right now, TODO: fix later
-def aStar(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
+def aStar(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) -> tuple[list[tuple[int, int]], int]:
     
     pq: list[State] = []
     visited: set[tuple[int, int]] = set()
@@ -127,7 +127,7 @@ def aStar(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) 
     pointParent: dict[tuple[int, int], tuple[int, int] | None] = {}
     pointParent[start] = None
     huarsitic: int = abs(start[0] - goal[0]) + abs(start[1] - goal[1])
-    heapq.heappush(pq, State(point=start, cost=0, huaristic=huarsitic, total=huarsitic ) )
+    heapq.heappush(pq, State(point=start, cost=0, hueristic=huarsitic, total=huarsitic ) )
 
     directions =[(1, 0), (-1, 0), (0, 1), (0, -1)]
 
@@ -150,15 +150,15 @@ def aStar(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) 
                     pointParent[(newX, newY)] = (x, y)
                     distance[(newX, newY)] = newCost
                     newHuaristic = abs(newX - goal[0]) + abs(newY - goal[1])
-                    newState = State(point=(newX, newY), cost=newCost, huaristic=newHuaristic, total=newCost + newHuaristic )
+                    newState = State(point=(newX, newY), cost=newCost, hueristic=newHuaristic, total=newCost + newHuaristic)
                     heapq.heappush(pq, newState)
 
 
     if not goalFound:
-        return []
+        return [], 0
         
     path = constructPath(pointParent, goal)
-    return path
+    return path, len(visited)
     
     
 def constructPath(pointParent: dict[tuple[int, int], tuple[int, int] | None], goal: tuple[int, int]) -> list[tuple[int, int]]:
@@ -168,4 +168,5 @@ def constructPath(pointParent: dict[tuple[int, int], tuple[int, int] | None], go
         path.append(ptr)
         ptr = pointParent[ptr]
         
+    path.reverse()
     return path
