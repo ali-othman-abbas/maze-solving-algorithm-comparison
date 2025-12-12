@@ -1,7 +1,6 @@
 import os
 import program
 
-
 def main():
     try:
         size = int(
@@ -33,20 +32,3 @@ def main():
 
 
 main()
-
-
-# def printGrid(grid: list[list[int]], start: tuple[int, int], end: tuple[int, int], solutionPath: list[tuple[int, int]]):
-#     unorderedPath = set(solutionPath)
-#     for x in range(len(grid)):
-#         for y in range(len(grid[0])):
-#             if (x, y) == start:
-#                 print("S", end="")
-#             elif (x, y) == end:
-#                 print("G", end="")
-#             elif (x, y) in unorderedPath:
-#                 print("P", end="")
-#             elif grid[x][y] == 0:
-#                 print(".", end="")
-#             elif grid[x][y] == 1:
-#                 print("#", end="")
-#         print()

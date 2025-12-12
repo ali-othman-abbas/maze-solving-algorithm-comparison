@@ -51,37 +51,7 @@ def dfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) ->
     
     path = constructPath(pointParent, goal)
     return path, len(discovered)
-        
-
-        
-
-    # def recurse(x: int, y: int) -> bool:
-    #     if x < 0 or y < 0 or x == len(grid) or y == len(grid[0]):
-    #         return False
-    #     if grid[x][y] == 1:
-    #         return False
-    #     if (x, y) in visited:
-    #         return False
-
-
-    #     visited.add((x, y))
-    #     path.append((x, y))
-    #     if (x, y) == goal:
-    #         return True
-
-    #     for direction in directions:
-    #         newX = x + direction[0]
-    #         newY = y + direction[1]
-    #         if recurse(newX, newY):
-    #             return True
-    #     _ = path.pop()
-    #     return False
-
-
-    # _ = recurse(start[0], start[1])
-
-    # return path
-
+    
 
 def bfs(grid: list[list[int]], start: tuple[int, int], goal: tuple[int, int]) -> tuple[list[tuple[int, int]], int]:
     q: deque[tuple[int, int]] = deque()
