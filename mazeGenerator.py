@@ -7,9 +7,12 @@ from utils import inGrid
 def createMaze(d: int, wallBreakPercent: float) -> tuple[list[list[int]], tuple[int, int], tuple[int, int]] | None:
     if d <= 1:
         return None
+    #creates a grid of cells of dimension d, where d is the logical dimension.
+    #Not the real dimension of the 2d array
     grid: list[list[int]] = _constructGrid(d)
 
     visited: set[tuple[int, int]] = set()
+    #xcoordinates of a random x and y point on the 2d array
     randX: int = 2*randint(0, d - 1) + 1
     randY: int = 2*randint(0, d - 1) + 1
     
@@ -32,28 +35,14 @@ def createMaze(d: int, wallBreakPercent: float) -> tuple[list[list[int]], tuple[
                 
         
     
-    # def recursiveBacktracker(x: int, y: int):
-    #     directions =[(1, 0), (-1, 0), (0, 1), (0, -1)]
-    #     visited.add((x, y))
-    #     while len(directions) > 0:
-    #         randNum = randint(0, len(directions) - 1)
-    #         directions[randNum], directions[len(directions) - 1] = directions[len(directions) - 1], directions[randNum]
-    #         direc = directions.pop()
-    #         newX, newY = x + 2*direc[0], y + 2*direc[1]
-    #         if inGrid(grid, newX, newY) and (newX, newY) not in visited:
-    #             #clear wall
-    #             grid[x + direc[0]][y + direc[1]] = 0
-    # #             recursiveBacktracker(newX, newY)
-
-    # recursiveBacktracker(1, 1)
-    
-    #add start and end
+    #creating entry and exit
     grid[1][0] = 0
     grid[len(grid) - 2][len(grid[0]) - 1] = 0
     
     
     _breakWalls(grid, wallBreakPercent)
     
+    #returns the grid, with entry and exit coordinates
     return (grid, (1, 0), (len(grid) - 2, len(grid[0]) - 1))
 
 def _constructGrid(d: int) -> list[list[int]]:

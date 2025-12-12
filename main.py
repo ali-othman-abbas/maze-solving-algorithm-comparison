@@ -1,5 +1,5 @@
 import os
-import mainProgram
+import program
 
 
 def main():
@@ -29,7 +29,7 @@ def main():
         print("invalid percentage")
         os._exit(1)
 
-    mainProgram.program(size, wallBreakPercent)
+    program.program(size, wallBreakPercent)
 
 
 main()

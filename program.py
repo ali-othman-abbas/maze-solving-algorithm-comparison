@@ -35,7 +35,7 @@ def program(size: int, wallBreakPercent: float) -> None:
     plt.figure()
     plt.bar(labels, [timeDFS, timeBFS, timeAStar])
     plt.xlabel("Traversal Algorithms")
-    plt.ylabel("Time Taken")
+    plt.ylabel("Time Taken (seconds)")
     plt.title("Execution Time")
     plt.show()
     
